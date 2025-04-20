@@ -16,6 +16,11 @@ def load_data():
 
 df = load_data()
 
+# Creamos  calculo de penetraciòn.
+if 'Penetracion_Internet' not in df.columns:
+    df['Penetracion_Internet'] = (df['Accesos'] / df['Población']) * 100
+
+
 # Sidebar de filtros
 st.sidebar.header("Filtros")
 provincias = df['Provincia'].dropna().unique()
