@@ -9,7 +9,7 @@ st.title("📡 Dashboard de Telecomunicaciones en Argentina")
 # Cargar dataset limpio
 @st.cache_data
 def load_data():
-    df = pd.read_csv("dataset_final_con_kpis.csv")
+    df = pd.read_csv("data/dataset_kpis.csv")
     if 'Provincia' in df.columns:
         df['Provincia'] = df['Provincia'].astype(str).str.upper().str.strip()
     return df
