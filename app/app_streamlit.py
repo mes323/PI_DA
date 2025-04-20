@@ -12,14 +12,21 @@ def load_data():
     df = pd.read_csv("data/dataset_kpis.csv")
     if 'Provincia' in df.columns:
         df['Provincia'] = df['Provincia'].astype(str).str.upper().str.strip()
+
+    # Calcular métricas necesarias si no existen
+    if 'Penetracion_Internet' not in df.columns:
+        df['Penetracion_Internet'] = (df['Accesos'] / df['Población']) * 100
+
+    # Asignar 'Accesos' como proxy de 'Hogares Con Internet'
+    df['Hogares Con Internet'] = df['Accesos']
+
+    # Proyección 2%
+    df['Proyeccion_Nuevo_Acceso'] = df['Hogares Con Internet'] * 1.02
+    df['KPI_Incremento_Internet'] = ((df['Proyeccion_Nuevo_Acceso'] - df['Hogares Con Internet']) / df['Hogares Con Internet']) * 100
+
     return df
 
 df = load_data()
-
-# Creamos  calculo de penetraciòn.
-if 'Penetracion_Internet' not in df.columns:
-    df['Penetracion_Internet'] = (df['Accesos'] / df['Población']) * 100
-
 
 # Sidebar de filtros
 st.sidebar.header("Filtros")
