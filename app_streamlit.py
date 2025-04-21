@@ -9,7 +9,6 @@ st.title("📡 Dashboard de Telecomunicaciones en Argentina")
 # Cargar dataset limpio
 @st.cache_data
 def load_data():
-    # ✅ Importante: archivo CSV debe estar en la raíz del proyecto
     df = pd.read_csv("dataset_kpis.csv")
 
     # Normalizar columna Provincia
