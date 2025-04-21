@@ -9,13 +9,18 @@ st.title("📡 Dashboard de Telecomunicaciones en Argentina")
 # Cargar dataset limpio
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/dataset_kpis.csv")
+    df = pd.read_csv("dataset_kpis.csv")
     if 'Provincia' in df.columns:
         df['Provincia'] = df['Provincia'].astype(str).str.upper().str.strip()
 
     # Calcular métricas necesarias si no existen
-    if 'Penetracion_Internet' not in df.columns:
+    # Calcular métricas necesarias si no existen
+if 'Penetracion_Internet' not in df.columns:
+    if 'Población' in df.columns and df['Población'].notna().any():
         df['Penetracion_Internet'] = (df['Accesos'] / df['Población']) * 100
+    else:
+        df['Penetracion_Internet'] = None
+
 
     # Asignar 'Accesos' como proxy de 'Hogares Con Internet'
     df['Hogares Con Internet'] = df['Accesos']
