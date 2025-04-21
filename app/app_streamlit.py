@@ -9,28 +9,33 @@ st.title("📡 Dashboard de Telecomunicaciones en Argentina")
 # Cargar dataset limpio
 @st.cache_data
 def load_data():
+    # ✅ Importante: archivo CSV debe estar en la raíz del proyecto
     df = pd.read_csv("dataset_kpis.csv")
+
+    # Normalizar columna Provincia
     if 'Provincia' in df.columns:
         df['Provincia'] = df['Provincia'].astype(str).str.upper().str.strip()
 
     # Calcular métricas necesarias si no existen
-    # Calcular métricas necesarias si no existen
-if 'Penetracion_Internet' not in df.columns:
-    if 'Población' in df.columns and df['Población'].notna().any():
-        df['Penetracion_Internet'] = (df['Accesos'] / df['Población']) * 100
-    else:
-        df['Penetracion_Internet'] = None
+    if 'Penetracion_Internet' not in df.columns:
+        if 'Población' in df.columns and df['Población'].notna().any():
+            df['Penetracion_Internet'] = (df['Accesos'] / df['Población']) * 100
+        else:
+            df['Penetracion_Internet'] = 0  # Fallback si población está vacía
 
-
-    # Asignar 'Accesos' como proxy de 'Hogares Con Internet'
+    # Usar Accesos como proxy de hogares conectados
     df['Hogares Con Internet'] = df['Accesos']
 
-    # Proyección 2%
+    # Cálculo de KPIs
     df['Proyeccion_Nuevo_Acceso'] = df['Hogares Con Internet'] * 1.02
-    df['KPI_Incremento_Internet'] = ((df['Proyeccion_Nuevo_Acceso'] - df['Hogares Con Internet']) / df['Hogares Con Internet']) * 100
+    df['KPI_Incremento_Internet'] = (
+        (df['Proyeccion_Nuevo_Acceso'] - df['Hogares Con Internet']) /
+        df['Hogares Con Internet']
+    ) * 100
 
     return df
 
+# Cargar datos
 df = load_data()
 
 # Sidebar de filtros
@@ -53,19 +58,23 @@ with col3:
 
 # Gráfico de barras - Penetración por Provincia
 st.subheader("📊 Penetración de Internet por Provincia")
-fig_bar = px.bar(df_filtrado.sort_values("Penetracion_Internet", ascending=False),
-                 x="Penetracion_Internet", y="Provincia",
-                 orientation="h", color="Penetracion_Internet",
-                 labels={"Penetracion_Internet": "Penetración (%)"},
-                 height=600)
+fig_bar = px.bar(
+    df_filtrado.sort_values("Penetracion_Internet", ascending=False),
+    x="Penetracion_Internet", y="Provincia",
+    orientation="h", color="Penetracion_Internet",
+    labels={"Penetracion_Internet": "Penetración (%)"},
+    height=600
+)
 st.plotly_chart(fig_bar, use_container_width=True)
 
 # Gráfico de KPI incremento
 st.subheader("📈 Proyección de Incremento en Accesos por Provincia")
-fig_kpi = px.bar(df_filtrado.sort_values("KPI_Incremento_Internet", ascending=False),
-                 x="Provincia", y="KPI_Incremento_Internet",
-                 color="KPI_Incremento_Internet",
-                 labels={"KPI_Incremento_Internet": "KPI Incremento (%)"})
+fig_kpi = px.bar(
+    df_filtrado.sort_values("KPI_Incremento_Internet", ascending=False),
+    x="Provincia", y="KPI_Incremento_Internet",
+    color="KPI_Incremento_Internet",
+    labels={"KPI_Incremento_Internet": "KPI Incremento (%)"}
+)
 st.plotly_chart(fig_kpi, use_container_width=True)
 
 # Tabla de datos opcional
