@@ -67,8 +67,8 @@ PI - DA/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/usuario/proyecto_telecomunicaciones.git
-cd proyecto_telecomunicaciones
+git clone https://github.com/mes323/PI_DA
+cd PI - DA
 
 2. Instalar dependencias
 pip install -r requirements.txt
