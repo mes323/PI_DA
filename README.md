@@ -43,13 +43,11 @@ PI - DA/
 
 ## 🧮 KPIs Calculados
 
-1. **Penetración de Internet (%)**
-   - Fórmula: `(Hogares con Internet / Total de Hogares) * 100`
 
-2. **Proyección de Accesos a Internet (2%)**
+1. **Proyección de Accesos a Internet (2%)**
    - Fórmula: `Accesos actuales * 1.02`
 
-3. **KPI de Crecimiento Esperado**
+2. **KPI de Crecimiento Esperado**
    - Fórmula: `((Proyección - Actual) / Actual) * 100`
 
 ---
