@@ -48,23 +48,23 @@ df_filtrado = df[df['Provincia'].isin(prov_select)]
 # KPIs
 st.subheader("🔢 Indicadores Clave (KPI)")
 col1, col2, col3 = st.columns(3)
-with col1:
-    st.metric("Penetración Promedio (%)", f"{df_filtrado['Penetracion_Internet'].mean():.2f}")
+#with col1:
+    #st.metric("Penetración Promedio (%)", f"{df_filtrado['Penetracion_Internet'].mean():.2f}")
 with col2:
     st.metric("Accesos Totales", f"{df_filtrado['Hogares Con Internet'].sum():,.0f}")
 with col3:
     st.metric("Proyección Accesos (2%)", f"{df_filtrado['Proyeccion_Nuevo_Acceso'].sum():,.0f}")
 
 # Gráfico de barras - Penetración por Provincia
-st.subheader("📊 Penetración de Internet por Provincia")
-fig_bar = px.bar(
-    df_filtrado.sort_values("Penetracion_Internet", ascending=False),
-    x="Penetracion_Internet", y="Provincia",
-    orientation="h", color="Penetracion_Internet",
-    labels={"Penetracion_Internet": "Penetración (%)"},
-    height=600
-)
-st.plotly_chart(fig_bar, use_container_width=True)
+#st.subheader("📊 Penetración de Internet por Provincia")
+#fig_bar = px.bar(
+    #df_filtrado.sort_values("Penetracion_Internet", ascending=False),
+    #x="Penetracion_Internet", y="Provincia",
+    #orientation="h", color="Penetracion_Internet",
+    #labels={"Penetracion_Internet": "Penetración (%)"},
+    #height=600
+#)
+#st.plotly_chart(fig_bar, use_container_width=True)
 
 # Gráfico de KPI incremento
 st.subheader("📈 Proyección de Incremento en Accesos por Provincia")
